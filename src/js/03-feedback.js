@@ -13,14 +13,10 @@ refs.form.addEventListener('input', throttle(onInput, 500));
 
 populateTextarea();
 
-let inputValue = {
-  email: '',
-  message: '',
-};
+let inputValue = {};
 
 function onSubmit(event) {
   event.preventDefault();
-  refs.form.reset();
   const savedMessage = JSON.parse(localStorage.getItem(STORAGE_KEY));
   if (savedMessage) {
     inputValue = savedMessage;
@@ -30,11 +26,23 @@ function onSubmit(event) {
       message: '',
     };
   }
+
   localStorage.removeItem(STORAGE_KEY);
+  refs.form.reset();
   console.log(inputValue);
 }
 
 function onInput(event) {
+  const savedMessage = JSON.parse(localStorage.getItem(STORAGE_KEY));
+  if (savedMessage) {
+    inputValue = savedMessage;
+  } else {
+    inputValue = {
+      email: '',
+      message: '',
+    };
+  }
+
   inputValue[event.target.name] = event.target.value;
   localStorage.setItem(STORAGE_KEY, JSON.stringify(inputValue));
 }
