@@ -17,32 +17,24 @@ let inputValue = {};
 
 function onSubmit(event) {
   event.preventDefault();
-  const savedMessage = JSON.parse(localStorage.getItem(STORAGE_KEY));
-  if (savedMessage) {
-    inputValue = savedMessage;
-  } else {
-    inputValue = {
-      email: '',
-      message: '',
-    };
-  }
 
+  savedMessage();
+
+  const formElements = event.currentTarget.elements;
+
+  const email = formElements.email.value;
+
+  const message = formElements.message.value;
+
+  if (!email && !message) return;
   localStorage.removeItem(STORAGE_KEY);
   refs.form.reset();
   console.log(inputValue);
+  inputValue = { email: '', message: '' };
 }
 
 function onInput(event) {
-  const savedMessage = JSON.parse(localStorage.getItem(STORAGE_KEY));
-  if (savedMessage) {
-    inputValue = savedMessage;
-  } else {
-    inputValue = {
-      email: '',
-      message: '',
-    };
-  }
-
+  savedMessage();
   inputValue[event.target.name] = event.target.value;
   localStorage.setItem(STORAGE_KEY, JSON.stringify(inputValue));
 }
@@ -52,5 +44,12 @@ function populateTextarea() {
   if (savedMessage) {
     refs.input.value = savedMessage.email;
     refs.textarea.value = savedMessage.message;
+  }
+}
+
+function savedMessage() {
+  const savedMessage = JSON.parse(localStorage.getItem(STORAGE_KEY));
+  if (savedMessage) {
+    inputValue = savedMessage;
   }
 }
