@@ -25,11 +25,14 @@ function onSubmit(event) {
 
   const message = formElements.message.value;
 
-  if (!email && !message) return;
-  localStorage.removeItem(STORAGE_KEY);
-  refs.form.reset();
-  console.log(inputValue);
-  inputValue = { email: '', message: '' };
+  if (!email || !message) {
+    alert('Заповніть всі поля');
+  } else {
+    localStorage.removeItem(STORAGE_KEY);
+    refs.form.reset();
+    console.log(inputValue);
+    inputValue = { email: '', message: '' };
+  }
 }
 
 function onInput(event) {
